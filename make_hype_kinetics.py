@@ -27,7 +27,7 @@ def plot_point(work_x):
     ax = plt.gca()
     ax.set(ylim=[0, 18])
     plt.text(1, 1, 'Technology trigger')
-    plt.text(4.2, 12.2, 'Peak of inflated expectations (mount bullshit)')
+    plt.text(4.2, 12.2, 'Peak of inflated expectations (Mount Bullshit)')
     plt.text(9.5, 2.3, 'Trough of disillusionment')
     plt.text(11, 4.8, 'Slope of enlightenment')
     plt.text(18, 7, 'Plateau of productivity')
