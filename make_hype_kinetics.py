@@ -14,7 +14,7 @@ hype_curve = spi.interp1d(hype_points[:, 0], hype_points[:, 1], kind='cubic',
 
 
 def time_delay(t):
-    return max([t - 2, 0]) * 0.6
+    return max([t - 2.5, 0]) * 0.8
 
 
 def plot_point(work_x):
