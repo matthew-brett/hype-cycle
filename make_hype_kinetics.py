@@ -9,17 +9,16 @@ from PIL import Image
 
 hype_points = np.loadtxt('gartner_hype.csv', delimiter=',')
 
-hype_curve = spi.interp1d(hype_points[:, 0], hype_points[:, 1], kind='cubic',
-                     fill_value='extrapolate')
+hype_curve = spi.interp1d(*hype_points.T, kind='cubic', fill_value='extrapolate')
 
 
-def time_delay(t):
-    return max([t - 2.5, 0]) * 0.8
+MANAGER_DELAY = 2.5  # Time for manager to get onto cycle.
+MANAGER_SCALING = 0.8  # Relative manager delay in following cycle.
 
 
 def plot_point(work_x):
     work_y = hype_curve(work_x)
-    admin_x = time_delay(work_x)
+    admin_x = max([work_x - MANAGER_DELAY, 0]) * MANAGER_SCALING
     admin_y = hype_curve(admin_x)
 
     x = np.linspace(0, 40, 100)
@@ -64,8 +63,9 @@ for x in out_x:
     new_frame = Image.frombytes('RGBa', sz, data)
     frames.append(new_frame.convert('RGB'))
 
-# Save into a GIF file that loops forever
+# https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif-saving
 frames[0].save('hype_kinetics.gif', format='GIF',
                append_images=frames[1:],
                save_all=True,
-               duration=60, loop=0)
+               duration=60,  # display-time per frame in ms.
+               loop=0)  # Number of times to loop; 0 -> loop forever.
